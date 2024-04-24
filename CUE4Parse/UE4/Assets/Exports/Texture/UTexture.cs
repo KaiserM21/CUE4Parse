@@ -18,6 +18,11 @@ public abstract class UTexture : UUnrealMaterial
     public FGuid LightingGuid { get; private set; }
     public TextureCompressionSettings CompressionSettings { get; private set; }
     public bool SRGB { get; private set; }
+    
+    public ETextureAddress AddressX { get; set; }
+    public ETextureAddress AddressY { get; set; }
+    public ETextureAddress AddressZ { get; set; }
+    
     public bool RenderNearestNeighbor { get; private set; }
     public EPixelFormat Format { get; protected set; } = EPixelFormat.PF_Unknown;
     public FTexturePlatformData PlatformData { get; private set; } = new();
