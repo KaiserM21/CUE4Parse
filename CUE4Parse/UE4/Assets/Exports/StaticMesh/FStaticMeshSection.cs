@@ -29,10 +29,12 @@ namespace CUE4Parse.UE4.Assets.Exports.StaticMesh
             bCastShadow = Ar.ReadBoolean();
             if (Ar.Game == EGame.GAME_PlayerUnknownsBattlegrounds) Ar.Position += 5; // byte + int
             bForceOpaque = FRenderingObjectVersion.Get(Ar) >= FRenderingObjectVersion.Type.StaticMeshSectionForceOpaqueField && Ar.ReadBoolean();
+            if (Ar.Game == EGame.GAME_MortalKombat1)
+                Ar.Position += 8;
             bVisibleInRayTracing = !Ar.Versions["StaticMesh.HasVisibleInRayTracing"] || Ar.ReadBoolean();
             if (Ar.Game is EGame.GAME_Dauntless or EGame.GAME_Grounded) Ar.Position += 8;
             bAffectDistanceFieldLighting = Ar.Game >= EGame.GAME_UE5_1 && Ar.ReadBoolean();
-            if (Ar.Game is EGame.GAME_RogueCompany or EGame.GAME_Grounded) Ar.Position += 4;
+            if (Ar.Game is EGame.GAME_RogueCompany or EGame.GAME_Grounded or EGame.GAME_TheFinals) Ar.Position += 4;
         }
     }
 }
