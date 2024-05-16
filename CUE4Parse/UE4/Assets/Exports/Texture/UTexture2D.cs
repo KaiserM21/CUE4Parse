@@ -11,11 +11,14 @@ namespace CUE4Parse.UE4.Assets.Exports.Texture;
 public class UTexture2D : UTexture
 {
     public FIntPoint ImportedSize { get; private set; }
-
+    
     public override void Deserialize(FAssetArchive Ar, long validPos)
     {
         base.Deserialize(Ar, validPos);
         ImportedSize = GetOrDefault<FIntPoint>(nameof(ImportedSize));
+        
+        AddressX = GetOrDefault(nameof(AddressX), ETextureAddress.TA_Wrap);
+        AddressY = GetOrDefault(nameof(AddressY), ETextureAddress.TA_Wrap);
 
         var stripDataFlags = Ar.Read<FStripDataFlags>();
         var bCooked = Ar.Ver >= EUnrealEngineObjectUE4Version.ADD_COOKED_TO_TEXTURE2D && Ar.ReadBoolean();
