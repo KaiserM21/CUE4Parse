@@ -41,6 +41,7 @@ namespace CUE4Parse.UE4.Versions
             GAME_Borderlands3 = GAME_UE4_20 + 1,
         GAME_UE4_21 = GameUtils.GameUe4Base + 21 << 4,
             GAME_StarWarsJediFallenOrder = GAME_UE4_21 + 1,
+            GAME_Undawn = GAME_UE4_21 + 2,
         GAME_UE4_22 = GameUtils.GameUe4Base + 22 << 4,
         GAME_UE4_23 = GameUtils.GameUe4Base + 23 << 4,
             GAME_ApexLegendsMobile = GAME_UE4_23 + 1,
@@ -85,7 +86,9 @@ namespace CUE4Parse.UE4.Versions
             GAME_TheFinals = GAME_UE5_0 + 2,
         GAME_UE5_1 = GameUtils.GameUe5Base + 1 << 4,
         GAME_UE5_2 = GameUtils.GameUe5Base + 2 << 4,
+            GAME_DeadbyDaylight = GAME_UE5_2 + 1,
         GAME_UE5_3 = GameUtils.GameUe5Base + 3 << 4,
+            GAME_WildAssault = GAME_UE5_3 + 1,
         GAME_UE5_4 = GameUtils.GameUe5Base + 4 << 4,
         GAME_UE5_5 = GameUtils.GameUe5Base + 5 << 4,
 
