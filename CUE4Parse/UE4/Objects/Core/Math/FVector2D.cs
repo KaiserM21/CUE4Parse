@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using CUE4Parse.UE4.Objects.Meshes;
 using CUE4Parse.UE4.Readers;
 using CUE4Parse.UE4.Versions;
 
@@ -34,7 +35,14 @@ namespace CUE4Parse.UE4.Objects.Core.Math
                 Y = Ar.Read<float>();
             }
         }
-
+        
+        public static FVector2D operator +(FVector2D a, FVector2D b) => new(a.X + b.X, a.Y + b.Y);
+        public static FVector2D operator -(FVector2D a, FVector2D b) => new(a.X - b.X, a.Y - b.Y);
+        public static FVector2D operator *(FVector2D a, FVector2D b) => new(a.X * b.X, a.Y * b.Y);
+        public static FVector2D operator /(FVector2D a, FVector2D b) => new(a.X / b.X, a.Y / b.Y);
+        
+        public static explicit operator FMeshUVFloat(FVector2D v) => new(v.X, v.Y);
+        
         public override string ToString() => $"X={X,3:F3} Y={Y,3:F3}";
     }
 }
