@@ -22,6 +22,7 @@ namespace CUE4Parse.UE4.Assets.Exports.SkeletalMesh
         public FPackageIndex[] Sockets { get; private set; }
         public FPackageIndex Skeleton { get; private set; }
         public ResolvedObject?[] Materials { get; private set; } // UMaterialInterface[]
+        public FPackageIndex PhysicsAsset { get; private set; }
 
         public override void Deserialize(FAssetArchive Ar, long validPos)
         {
@@ -33,6 +34,7 @@ namespace CUE4Parse.UE4.Assets.Exports.SkeletalMesh
             MorphTargets = GetOrDefault(nameof(MorphTargets), Array.Empty<FPackageIndex>());
             Sockets = GetOrDefault(nameof(Sockets), Array.Empty<FPackageIndex>());
             Skeleton = GetOrDefault(nameof(Skeleton), new FPackageIndex());
+            PhysicsAsset = GetOrDefault(nameof(PhysicsAsset), new FPackageIndex());
 
             var stripDataFlags = Ar.Read<FStripDataFlags>();
             ImportedBounds = new FBoxSphereBounds(Ar);
@@ -95,9 +97,9 @@ namespace CUE4Parse.UE4.Assets.Exports.SkeletalMesh
             }
 
             var dummyObjs = Ar.ReadArray(() => new FPackageIndex(Ar));
-            
+
             if (Ar.Game == EGame.GAME_OutlastTrials) Ar.Position += 1;
-            
+
             if (TryGetValue(out FStructFallback[] lodInfos, "LODInfo"))
             {
                 for (var i = 0; i < LODModels?.Length; i++)
@@ -124,8 +126,8 @@ namespace CUE4Parse.UE4.Assets.Exports.SkeletalMesh
             writer.WritePropertyName("ImportedBounds");
             serializer.Serialize(writer, ImportedBounds);
 
-            writer.WritePropertyName("Materials");
-            serializer.Serialize(writer, Materials);
+            writer.WritePropertyName("SkeletalMaterials");
+            serializer.Serialize(writer, SkeletalMaterials);
 
             writer.WritePropertyName("LODModels");
             serializer.Serialize(writer, LODModels);

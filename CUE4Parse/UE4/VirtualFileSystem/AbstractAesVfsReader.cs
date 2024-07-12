@@ -37,26 +37,21 @@ namespace CUE4Parse.UE4.VirtualFileSystem
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool TestAesKey(byte[] bytes, FAesKey key)
         {
-            byte[] decrypted;
-            switch (_game)
+            var decrypted = _game switch
             {
-                case EGame.GAME_ApexLegendsMobile:
-                    decrypted = bytes.DecryptApexMobile(key);
-                    break;
-                default:
-                    decrypted = bytes.Decrypt(key);
-                    break;
-            }
+                EGame.GAME_ApexLegendsMobile => bytes.DecryptApexMobile(key),
+                _ => bytes.Decrypt(key)
+            };
 
             return IsValidIndex(decrypted);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected byte[] Decrypt(byte[] bytes, FAesKey? key)
+        protected byte[] Decrypt(byte[] bytes, FAesKey? key, bool bypassMountPointCheck = false)
         {
             if (key != null)
             {
-                var valid = TestAesKey(key);
+                var valid = TestAesKey(key) || bypassMountPointCheck;
                 if (!valid && _game == EGame.GAME_Snowbreak)
                 {
                     var newKey = ConvertSnowbreakAes(Name, key);
@@ -69,7 +64,7 @@ namespace CUE4Parse.UE4.VirtualFileSystem
 
                 if (valid)
                 {
-                    return (_game) switch
+                    return _game switch
                     {
                         EGame.GAME_ApexLegendsMobile => bytes.DecryptApexMobile(key),
                         _ => bytes.Decrypt(key)
@@ -95,7 +90,7 @@ namespace CUE4Parse.UE4.VirtualFileSystem
 
             return Decrypt(bytes, AesKey);
         }
-        protected byte[] DecryptIfEncrypted(byte[] bytes, int beginOffset, int count, bool isEncrypted)
+        protected byte[] DecryptIfEncrypted(byte[] bytes, int beginOffset, int count, bool isEncrypted, bool bypassMountPointCheck = false)
         {
             if (!isEncrypted) return bytes;
             if (CustomEncryption != null)
@@ -103,7 +98,7 @@ namespace CUE4Parse.UE4.VirtualFileSystem
                 return CustomEncryption(bytes, beginOffset, count, false, this);
             }
 
-            return Decrypt(bytes, AesKey);
+            return Decrypt(bytes, AesKey, bypassMountPointCheck);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -113,7 +108,7 @@ namespace CUE4Parse.UE4.VirtualFileSystem
         protected byte[] ReadAndDecrypt(int length, FArchive reader, bool isEncrypted) =>
             DecryptIfEncrypted(reader.ReadBytes(length), isEncrypted);
 
-        private FAesKey ConvertSnowbreakAes(string name, FAesKey key)
+        private static FAesKey ConvertSnowbreakAes(string name, FAesKey key)
         {
             var pakName = System.IO.Path.GetFileNameWithoutExtension(name).ToLower();
             var pakNameBytes = Encoding.ASCII.GetBytes(pakName);

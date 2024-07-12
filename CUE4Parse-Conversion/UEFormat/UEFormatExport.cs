@@ -1,11 +1,11 @@
 using System.IO;
 using System.IO.Compression;
-
 using CUE4Parse.UE4.Writers;
 
 using CUE4Parse_Conversion.UEFormat.Enums;
 using CUE4Parse_Conversion.UEFormat.Structs;
-
+using CUE4Parse.Compression;
+using OodleDotNet;
 using ZstdSharp;
 
 namespace CUE4Parse_Conversion.UEFormat;
@@ -16,8 +16,11 @@ public class UEFormatExport
     protected readonly FArchiveWriter Ar = new();
     protected ExporterOptions Options;
     private string ObjectName;
-    
-    private const int ZSTD_LEVEL = 6; // let user change eventually?
+
+    // TODO make user selectable
+    private const OodleCompressor OODLE_COMPRESSOR = OodleCompressor.Leviathan;
+    private const OodleCompressionLevel OODLE_COMPRESSION_LEVEL = OodleCompressionLevel.Fast;
+    private const int ZSTD_LEVEL = 6;
     
     protected UEFormatExport(string name, ExporterOptions options)
     {
@@ -43,13 +46,15 @@ public class UEFormatExport
         archive.Write(compressedData);
     }
 
-    private static byte[] GzipCompress(byte[] src)
+    public static byte[] GzipCompress(byte[] src)
     {
-        var outputMs = new MemoryStream();
+        using var outStream = new MemoryStream();
+        using var srcStream = new MemoryStream(src);
+        using (var gzipStream = new GZipStream(outStream, CompressionMode.Compress))
         {
-            using var gzipStream = new GZipStream(new MemoryStream(src), CompressionLevel.Optimal);
-            gzipStream.CopyTo(outputMs);
+            srcStream.CopyTo(gzipStream);
         }
-        return outputMs.ToArray();
+
+        return outStream.ToArray();
     }
 }
