@@ -62,8 +62,8 @@ public class FLandscapeComponentDataInterface
 			var mip = heightMapTexture.PlatformData.Mips[MipLevel];
 			var bulkData = mip.BulkData.Data;
 			
-			if (platform == ETexturePlatform.Playstation)
-				bulkData =  PlatformDeswizzlers.DeswizzlePS4(bulkData!, mip, formatInfo);
+			if (platform == ETexturePlatform.XboxAndPlaystation)
+				bulkData =  PlatformDeswizzlers.DeswizzleXBPS(bulkData!, mip, formatInfo);
 			else if (platform == ETexturePlatform.NintendoSwitch)
 				bulkData = PlatformDeswizzlers.GetDeswizzledData(bulkData!, mip, formatInfo);
 
@@ -138,8 +138,8 @@ public class FLandscapeComponentDataInterface
 
 		var mip = weightTexture.PlatformData.Mips[MipLevel];
 		var bulkData = mip.BulkData.Data;
-		if (platform == ETexturePlatform.Playstation)
-			bulkData =  PlatformDeswizzlers.DeswizzlePS4(bulkData!, mip, formatInfo);
+		if (platform == ETexturePlatform.XboxAndPlaystation)
+			bulkData =  PlatformDeswizzlers.DeswizzleXBPS(bulkData!, mip, formatInfo);
 		else if (platform == ETexturePlatform.NintendoSwitch)
 			bulkData = PlatformDeswizzlers.GetDeswizzledData(bulkData!, mip, formatInfo);
 
