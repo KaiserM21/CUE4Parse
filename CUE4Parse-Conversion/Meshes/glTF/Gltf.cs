@@ -67,7 +67,7 @@ namespace CUE4Parse_Conversion.Meshes.glTF
                     {
                         var delta = morphModel.Vertices[j];
                         var vert = lod.Verts[delta.SourceIdx];
-                        var srcVert = new VertexPositionNormalTangent(SwapYZ(vert.Position*0.01f),SwapYZAndNormalize((FVector)vert.Normal) , SwapYZAndNormalize((Vector4)vert.Tangent));
+                        var srcVert = new VertexPositionNormalTangent(SwapYZ(vert.Position*0.01f),SwapYZAndNormalize((FVector)vert.Normal) , SwapYZAndNormalize(vert.Tangent));
                         var index = FindVert(srcVert, verts);
                         if (index == -1)  continue;
 
