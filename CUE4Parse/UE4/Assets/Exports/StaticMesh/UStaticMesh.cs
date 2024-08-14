@@ -76,7 +76,7 @@ namespace CUE4Parse.UE4.Assets.Exports.StaticMesh
 
             if (Ar.Game >= EGame.GAME_UE4_14)
             {
-                var bHasSpeedTreeWind = Ar.ReadBoolean() || Ar.Game == EGame.GAME_TheFinals;
+                var bHasSpeedTreeWind = Ar.ReadBoolean();
                 if (bHasSpeedTreeWind)
                 {
                     Ar.Position = validPos;
