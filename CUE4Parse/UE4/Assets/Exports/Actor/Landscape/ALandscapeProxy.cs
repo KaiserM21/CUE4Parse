@@ -5,7 +5,7 @@ using CUE4Parse.UE4.Objects.UObject;
 
 namespace CUE4Parse.UE4.Assets.Exports.Actor.Landscape;
 
-public class ALandscapeProxy : AActor
+public class ALandscapeProxy : APartitionActor
 {
     public FPackageIndex[] LandscapeComponents;
     public int ComponentSizeQuads;
@@ -30,3 +30,6 @@ public class ALandscapeProxy : AActor
         LandscapeGuid = GetOrDefault<FGuid>("LandscapeGuid");
     }
 }
+
+public class ALandscape : ALandscapeProxy;
+public class ALandscapeStreamingProxy : ALandscapeProxy;
