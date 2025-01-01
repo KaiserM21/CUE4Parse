@@ -9,7 +9,6 @@ public class UStaticMeshComponent : UMeshComponent
 {
     public FStaticMeshComponentLODInfo[] LODData;
     public bool bSerializeAsCookedData;
-    public FPackageIndex? SavedMeshPaintTexture;
     public FPackageIndex? MeshPaintTextureCooked;
 
     public override void Deserialize(FAssetArchive Ar, long validPos)
@@ -24,11 +23,7 @@ public class UStaticMeshComponent : UMeshComponent
             bSerializeAsCookedData = Ar.ReadBoolean();
 
             if (bSerializeAsCookedData)
-                SavedMeshPaintTexture = new FPackageIndex(Ar);
-        }
-        else
-        {
-            MeshPaintTextureCooked = new FPackageIndex(Ar);
+                MeshPaintTextureCooked = new FPackageIndex(Ar);
         }
     }
 
